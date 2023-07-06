@@ -15,7 +15,22 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImage = () => {};
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch("http://localhost:8080/api/v1/dalle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+      } catch (error) {
+        
+      }
+    }
+  };
 
   const handleSubmit = () => {};
 
@@ -39,7 +54,7 @@ const CreatePost = () => {
       <form className="mt-16 max-w-3x1" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
           <FormField
-            LabelName="Your name"
+            labelName="Your name"
             type="text"
             name="name"
             placeholder="prince saspra"
@@ -47,7 +62,7 @@ const CreatePost = () => {
             handleChange={handleChange}
           />
           <FormField
-            LabelName="Prompt"
+            labelName="Prompt"
             type="text"
             name="Prompt"
             placeholder="an oil painting by Matisse of a humanoid robot playing chess"
